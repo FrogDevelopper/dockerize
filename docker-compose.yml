@@ -4,7 +4,7 @@ services:
 
   portainer:
     container_name: portainer
-    image: portainer/portainer-ce:2.0.0
+    image: portainer/portainer-ce:2.0.1
     restart: always
     ports:
       - 9000:9000
@@ -13,32 +13,5 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
 
-  postgres:
-    container_name: postgres
-    image: groonga/pgroonga:2.2.2-alpine-12-slim
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    ports:
-      - 5432:5432
-    environment:
-      POSTGRES_PASSWORD: postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-  pgAdmin:
-    container_name: pgAdmin
-    image: dpage/pgadmin4:4.25
-    ports:
-      - 90:80
-    depends_on:
-      - postgres
-    environment:
-      PGADMIN_DEFAULT_EMAIL: local@test.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-
 volumes:
-  postgres_data:
   portainer_data:
